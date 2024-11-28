@@ -124,6 +124,9 @@
             alert("Please enter a valid email.");
             return;
           }
+          // Disable the button
+          notifyButton.disabled = true;
+          notifyButton.innerHTML = "Sending..."; // Optional: change button text
 
           let formData = new FormData();
           formData.append("email", email);
@@ -137,11 +140,17 @@
 
             if (result.status === "success") {
               swal("Done", "Submitted Successfully.", "success");
+              notifyButton.disabled = false;
+              notifyButton.innerHTML = "Notify me";
             } else {
               swal("Error", "Something went wrong. please try again!", "error");
+              notifyButton.disabled = false;
+              notifyButton.innerHTML = "Notify me";
             }
           } catch (error) {
             swal("Error", "Something went wrong. please try again!", "error");
+            notifyButton.disabled = false;
+            notifyButton.innerHTML = "Notify me";
           }
         });
       });
