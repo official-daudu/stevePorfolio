@@ -23,6 +23,14 @@
       href="./favicon_io/favicon-16x16.png"
     />
     <link rel="manifest" href="/site.webmanifest" />
+    <link
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
   </head>
   <body>
     <div class="container">
@@ -128,12 +136,12 @@
             const result = await response.json();
             console.log(result);
             if (result.status === "success") {
-              alert("Email successfully added to Google Sheets!");
+              swal("Done", "Submitted Successfully.", "success");
             } else {
-              alert("Something went wrong internally. Please try again!");
+              swal("Error", "Something went wrong. please try again!", "error");
             }
           } catch (error) {
-            alert("Something went wrong. Please try again!");
+            swal("Error", "Something went wrong. please try again!", "error");
           }
         });
       });
