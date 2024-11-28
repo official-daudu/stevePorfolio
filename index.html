@@ -102,42 +102,47 @@
         </div>
       </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
+      const scriptURL =
+        "https://script.google.com/macros/s/AKfycbzq-K2RYwpBhkKdv2bDmz9Er1ID_3h10hEGLkDeJGp6nZei4CYY5wCN_Dc3NjrVVuUHcg/exec";
+
       document.addEventListener("DOMContentLoaded", function () {
         const notifyButton = document.querySelector(".notify-btn");
         const emailInput = document.querySelector(".email-input");
 
         notifyButton.addEventListener("click", async () => {
           const email = emailInput.value.trim();
-          if (!email) {
+          if (!email || !validateEmail(email)) {
             alert("Please enter a valid email.");
             return;
           }
 
-          try {
-            const response = await axios.post(
-              "https://script.google.com/macros/s/AKfycbyLrY0KxSWre2OLw23UCSidyhg_rBXGdOKXA7_O09fjGKheoB8nFREwvFx-rfAFBogwdw/exec", // Replace with your updated URL
-              { email },
-              {
-                headers: {
-                  "Content-Type": "application/json",
-                },
-              }
-            );
+          let formData = new FormData();
+          formData.append("email", email);
 
-            if (response.data.status === "success") {
+          try {
+            const response = await fetch(scriptURL, {
+              method: "POST",
+              body: formData,
+            });
+            const result = await response.json();
+            console.log(result);
+            if (result.status === "success") {
               alert("Email successfully added to Google Sheets!");
-              emailInput.value = "";
             } else {
-              alert("There was an error. Please try again.");
+              alert("Something went wrong internally. Please try again!");
             }
           } catch (error) {
-            console.error("Error:", error);
-            alert("Failed to send email. Please try again.");
+            alert("Something went wrong. Please try again!");
           }
         });
       });
+
+      // Simple email validation function
+      function validateEmail(email) {
+        const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        return re.test(email);
+      }
     </script>
   </body>
 </html>
